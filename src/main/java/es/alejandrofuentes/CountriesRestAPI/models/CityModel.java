@@ -1,26 +1,36 @@
 package es.alejandrofuentes.CountriesRestAPI.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
-import java.awt.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "City")
-public class City {
+@Table(name = "cities")
+public class CityModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "id")
+    @GenericGenerator(
+            name = "id",
+            strategy = "es.alejandrofuentes.CountriesRestAPI.generators.IdGenerator"
+    )
     private Long id;
     private String name;
 
     private String photo;
-    @ManyToOne
-    private Country country;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "countries_id", referencedColumnName = "id")
+    @JsonIgnore()
+    private CountryModel country;
 
-    public City(Long id, String name, String photo, Country country) {
+    public CityModel(Long id, String name, String photo, CountryModel country) {
         this.id = id;
         this.name = name;
         this.photo = photo;
         this.country = country;
+    }
+
+    public CityModel() {
+
     }
 
     public Long getId() {
@@ -47,11 +57,11 @@ public class City {
         this.photo = photo;
     }
 
-    public Country getCountry() {
+    public CountryModel getCountry() {
         return country;
     }
 
-    public void setCountry(Country country) {
+    public void setCountry(CountryModel country) {
         this.country = country;
     }
 }

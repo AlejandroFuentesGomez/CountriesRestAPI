@@ -1,26 +1,14 @@
 package es.alejandrofuentes.CountriesRestAPI.models;
-
-import jakarta.persistence.*;
-
-import java.util.List;
-
-@Entity
-@Table(name = "Country")
-public class Country {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class CountryRequestBodyModel {
     private Long id;
     private String name;
     private String currency;
     private String language;
     private String photo;
     private Integer population;
-    @ManyToOne
-    private Continent continent;
-    @OneToMany(mappedBy = "country")
-    private List<City> cityList;
+    private Integer continent;
 
-    public Country(Long id, String name, String currency, String language, String photo, Integer population, Continent continent, List<City> cityList) {
+    public CountryRequestBodyModel(Long id, String name, String currency, String language, String photo, Integer population, Integer continent) {
         this.id = id;
         this.name = name;
         this.currency = currency;
@@ -28,7 +16,14 @@ public class Country {
         this.photo = photo;
         this.population = population;
         this.continent = continent;
-        this.cityList = cityList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -71,27 +66,11 @@ public class Country {
         this.population = population;
     }
 
-    public Continent getContinent() {
+    public Integer getContinent() {
         return continent;
     }
 
-    public void setContinent(Continent continent) {
+    public void setContinent(Integer continent) {
         this.continent = continent;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<City> getCityList() {
-        return cityList;
-    }
-
-    public void setCityList(List<City> cityList) {
-        this.cityList = cityList;
     }
 }
